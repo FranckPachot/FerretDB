@@ -51,7 +51,7 @@ func setById(ctx context.Context, tx pgx.Tx, schema, table, comment string, id a
 		sql += `/* ` + comment + ` */ `
 	}
 
-	sql += pgx.Identifier{schema, table}.Sanitize() + " SET _jsonb = $1 WHERE _jsonb->'_id' = $2"
+	sql += pgx.Identifier{schema, table}.Sanitize() + " SET _jsonb = $1 WHERE _jsonb->>'_id' = $2"
 
 	tag, err := tx.Exec(ctx, sql, must.NotFail(sjson.Marshal(doc)), must.NotFail(sjson.MarshalSingleValue(id)))
 	if err != nil {

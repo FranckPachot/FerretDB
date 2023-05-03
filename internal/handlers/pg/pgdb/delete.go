@@ -67,7 +67,7 @@ func deleteByIDs(ctx context.Context, tx pgx.Tx, d execDeleteParams, ids []any) 
 	}
 
 	sql += `FROM ` + pgx.Identifier{d.schema, d.table}.Sanitize() +
-		` WHERE _jsonb->'_id' IN (` + strings.Join(placeholders, ", ") + `)`
+		` WHERE _jsonb->>'_id' IN (` + strings.Join(placeholders, ", ") + `)`
 
 	tag, err := tx.Exec(ctx, sql, idsMarshalled...)
 	if err != nil {

@@ -205,7 +205,7 @@ func createPgIndexIfNotExists(ctx context.Context, tx pgx.Tx, schema, table, ind
 		}
 
 		// It's important to sanitize field.Field data here, as it's a user-provided value.
-		fieldsDef[i] = fmt.Sprintf(`((_jsonb->%s)) %s`, quoteString(field.Field), order)
+		fieldsDef[i] = fmt.Sprintf(`((_jsonb->>%s)) %s`, quoteString(field.Field), order)
 	}
 
 	sql := `CREATE` + unique + ` INDEX IF NOT EXISTS ` + pgx.Identifier{index}.Sanitize() +
